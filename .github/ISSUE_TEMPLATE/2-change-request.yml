@@ -1,0 +1,22 @@
+name: ✏️ Change to an app
+description: Ask the factory to improve or fix an existing app.
+labels: ["change"]
+body:
+  - type: input
+    id: app
+    attributes:
+      label: Which app? (its folder name)
+      placeholder: movie-slots
+    validations: { required: true }
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of change?
+      options: ["Something's broken", "New feature", "Looks or wording"]
+    validations: { required: true }
+  - type: textarea
+    id: details
+    attributes:
+      label: What should change?
+      description: For a bug, say what you did, what happened, and what you expected.
+    validations: { required: true }

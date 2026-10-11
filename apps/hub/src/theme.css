@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "@sharelies/ui/base.css";
+@source "./";
+
+:root {
+  --background: oklch(0.985 0.01 80);
+  --primary: oklch(0.65 0.2 35);
+  --primary-foreground: oklch(0.99 0 0);
+}

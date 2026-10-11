@@ -1,0 +1,53 @@
+name: 💡 App idea
+description: Ask the factory to build a new house app.
+title: "App idea: "
+labels: ["app-idea"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe it like you'd explain it to a housemate. When Lachie adds the
+        `factory:build` label, a coding agent builds it and opens a pull request.
+  - type: input
+    id: name
+    attributes:
+      label: App name
+      placeholder: Movie Night Slots
+    validations: { required: true }
+  - type: input
+    id: emoji
+    attributes:
+      label: Emoji
+      placeholder: 🎰
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's the idea?
+      placeholder: We waste 40 minutes every movie night deciding what to watch.
+    validations: { required: true }
+  - type: textarea
+    id: features
+    attributes:
+      label: What should it do?
+      description: A short list is perfect. Must-haves first.
+      placeholder: |
+        - Pull a lever to spin up a random movie
+        - Pick a genre first if we want
+        - Never suggest something we've already watched
+    validations: { required: true }
+  - type: textarea
+    id: vibe
+    attributes:
+      label: The vibe
+      description: Any look or feel you're picturing? Links and screenshots welcome.
+      placeholder: 90s pokies machine on a neon cinema marquee
+  - type: dropdown
+    id: shared
+    attributes:
+      label: Does it need to remember things across everyone's devices?
+      description: “Yes” means it needs a shared online store, which needs a decision first.
+      options:
+        - "No, each device can keep its own"
+        - "Yes, everyone must see the same thing"
+        - "Not sure"
+    validations: { required: true }

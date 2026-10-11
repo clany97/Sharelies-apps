@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "paths": {
+      "@sharelies/ui/components/*": [
+        "./src/components/*"
+      ],
+      "@sharelies/ui/lib/*": [
+        "./src/lib/*"
+      ],
+      "@sharelies/ui/hooks/*": [
+        "./src/hooks/*"
+      ],
+      "@sharelies/ui/hooks": [
+        "./src/hooks"
+      ],
+      "@sharelies/ui/lib": [
+        "./src/lib"
+      ],
+      "@sharelies/ui/components": [
+        "./src/components"
+      ]
+    }
+  },
+  "include": [
+    "src"
+  ]
+}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <rect width="180" height="180" fill="#07060d"/>
+  <rect x="22" y="40" width="136" height="100" rx="12" fill="#120d1c" stroke="#3a6bff" stroke-width="4"/>
+  <g fill="#ffcf6e">
+    <circle cx="40" cy="54" r="4.5"/><circle cx="60" cy="54" r="4.5"/><circle cx="80" cy="54" r="4.5"/><circle cx="100" cy="54" r="4.5"/><circle cx="120" cy="54" r="4.5"/><circle cx="140" cy="54" r="4.5"/>
+    <circle cx="40" cy="126" r="4.5"/><circle cx="60" cy="126" r="4.5"/><circle cx="80" cy="126" r="4.5"/><circle cx="100" cy="126" r="4.5"/><circle cx="120" cy="126" r="4.5"/><circle cx="140" cy="126" r="4.5"/>
+  </g>
+  <text x="90" y="88" text-anchor="middle" font-family="Arial Rounded MT Bold, Arial, sans-serif" font-size="22" fill="#2de2e6">MOVIE</text>
+  <text x="90" y="114" text-anchor="middle" font-family="Arial Rounded MT Bold, Arial, sans-serif" font-size="26" fill="#ff3fa4">POKIE</text>
+</svg>

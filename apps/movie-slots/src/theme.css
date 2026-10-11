@@ -1,0 +1,347 @@
+/*
+ * Sharelies Movie Pokie design system: a neon cinema marquee at night, crossed with a 90s pokies machine.
+ * Tailwind + the shared shadcn base come first; everything below is this app's own.
+ */
+@import "tailwindcss";
+@import "@sharelies/ui/base.css";
+@source "./";
+
+:root {
+  --night: #07060d;
+  --cabinet: #120d1c;
+  --cyan: #2de2e6;
+  --pink: #ff3fa4;
+  --tube: #3a6bff;
+  --bulb: #ffcf6e;
+  --paper: #f3efe6;
+  --red: #d62839;
+  --ink: #141414;
+  --teal: #1d5f5a;
+  --dim: #8f86a8;
+  --line: #2a2140;
+  --neon-font: "Righteous", var(--font-sans);
+  --board-font: "Bebas Neue", Impact, sans-serif;
+
+  /* shadcn tokens, so the sheet and select menu live in the same night */
+  --background: var(--night);
+  --foreground: var(--paper);
+  --popover: var(--cabinet);
+  --popover-foreground: var(--paper);
+  --muted-foreground: var(--dim);
+  --accent: var(--line);
+  --accent-foreground: var(--paper);
+  --border: var(--line);
+  --ring: var(--cyan);
+  --radius: 0.4rem;
+  color-scheme: dark;
+}
+
+html, body { overscroll-behavior: none; }
+
+/* ── The street ─────────────────────────────────────────── */
+.stage {
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right))
+    max(1.5rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+}
+.stage::before { /* light spilling off the marquee, plus a little film grain */
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.07'/%3E%3C/svg%3E"),
+    radial-gradient(55% 35% at 50% 32%, #2de2e61c, transparent 70%),
+    radial-gradient(45% 30% at 50% 62%, #ff3fa412, transparent 70%),
+    linear-gradient(#0e0a1a, var(--night) 65%);
+}
+
+/* Two typefaces only: Righteous for neon, Bebas Neue for everything else. */
+.stage { display: flex; flex-direction: column; font-family: var(--board-font); letter-spacing: 0.06em; }
+.back { align-self: flex-start; }
+.logo { margin-top: auto !important; }        /* headline + marquee sit centred on screen */
+.machine { margin-bottom: auto; padding-bottom: 1rem; }
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 1.05rem;
+  letter-spacing: 0.12em;
+  color: var(--dim);
+}
+.back:hover { color: var(--paper); }
+
+.logo { /* the Atlas 9 lettering, kept quieter than the sign itself */
+  margin: 0 0 0.25rem;
+  text-align: center;
+  font: clamp(1.35rem, 5.5vw, 2.4rem) / 1.05 var(--neon-font);
+  letter-spacing: 0;
+  text-wrap: balance;
+  color: var(--cyan);
+  text-shadow: 0 0 10px #2de2e666;
+  animation: power-on 1.4s 0.2s both;
+}
+.logo span + span { color: var(--pink); text-shadow: 0 0 10px #ff3fa466; }
+
+/* ── The theatre front: tower, marquee, canopy, box office ── */
+.machine { --side: 2.25rem; position: relative; padding-inline: var(--side); }
+.facade { min-width: 0; display: flex; flex-direction: column; align-items: center; }
+.facade > :not(.tower, .box-office, .bulbs-red) { align-self: stretch; }
+
+.tower {
+  width: clamp(4.5rem, 13vw, 8.5rem);
+  margin-bottom: -0.35rem;
+  overflow: visible;
+  filter: drop-shadow(0 0 2px #ff7a52) drop-shadow(0 0 10px #ff3d2a99);
+}
+.tower-neon { fill: none; stroke: #ff6a45; stroke-width: 2.2; stroke-linecap: round; }
+.tower-bulbs { fill: #ffe2a0; }
+
+.facade-body {
+  --hn: 9.5rem;
+  --hb: 6.25rem;
+  display: grid;
+  grid-template-columns: 0.9rem 1fr 1fr 0.9rem;
+  grid-template-areas: "t1 neon neon t2" "left left right right";
+  gap: 0.7rem 0.4rem;
+  padding: 0.5rem 0.25rem;
+  background: linear-gradient(#0e0b18, #07060d);
+  perspective: 1100px;
+}
+
+/* Stacked blue neon tubes beside the centre sign, and the long wings off each side. */
+.tubes, .wing { filter: drop-shadow(0 0 3px var(--tube)) drop-shadow(0 0 12px #3a6bffaa); }
+.tubes { background: repeating-linear-gradient(#dbe6ff 0 2px, #5b84ff 2px 4px, transparent 4px 10px); border-radius: 0.5rem; }
+.tubes-l { grid-area: t1; border-radius: 1rem 0.2rem 0.2rem 1rem; }
+.tubes-r { grid-area: t2; border-radius: 0.2rem 1rem 1rem 0.2rem; }
+.wing { display: none; height: 62%; background: repeating-linear-gradient(#c3d3ff 0 3px, transparent 3px 15px); }
+.wing-l { grid-area: w1; mask: linear-gradient(to left, #000 40%, transparent); }
+.wing-r { grid-area: w2; mask: linear-gradient(to right, #000 40%, transparent); }
+
+@media (min-width: 820px) {
+  .machine { --side: 6rem; }
+  .facade-body {
+    --hn: 15rem;
+    --hb: 13rem;
+    grid-template-columns: minmax(1.5rem, 1fr) 1.35fr 2.25rem 2.7fr 2.25rem 1.35fr minmax(1.5rem, 1fr);
+    grid-template-areas: "w1 left t1 neon t2 right w2";
+    align-items: center;
+    gap: 0 0.8rem;
+    padding: 1rem 0;
+  }
+  .tubes { align-self: stretch; }
+  .wing { display: block; }
+}
+
+/* Chaser bulbs: every third bulb is dark and the gap marches along. */
+.bulbs {
+  --b: 18px;
+  --lit: var(--bulb);
+  position: relative;
+  height: var(--b);
+  margin: 0.15rem 0;
+  background: radial-gradient(circle, #fff7dc 0 2px, var(--lit) 3.5px, transparent 7.5px) 0 50% / var(--b) var(--b) repeat-x;
+}
+.bulbs::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, #3d2c10 0 3.5px, #0b0912 4.5px, transparent 7.5px) 0 50% / calc(var(--b) * 3) var(--b) repeat-x;
+  animation: chase var(--chase, 0.9s) steps(3) infinite;
+}
+.bulbs-red { --lit: #ff4d5e; width: min(100%, 40rem); }
+.stage[data-phase="spinning"] .bulbs { --chase: 0.24s; }
+.stage[data-phase="landed"] .bulbs { animation: flash 0.32s steps(1) 4; }
+
+/* The canopy's underside: a field of warm bulbs receding toward the doors. */
+.canopy {
+  height: clamp(2.75rem, 9vw, 5.5rem);
+  background:
+    radial-gradient(circle, #fff6d6 0 1.2px, #ffcf6eaa 2.2px, transparent 3.6px) 0 0 / 12px 10px,
+    linear-gradient(#3a2a14, #0b0912);
+  transform: perspective(260px) rotateX(-40deg);
+  transform-origin: top;
+  mask: linear-gradient(#000 35%, transparent);
+}
+
+/* ── Reels ──────────────────────────────────────────────── */
+.reel { position: relative; height: var(--h); overflow: hidden; container-type: size; }
+.reel-item {
+  height: var(--h);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+  text-wrap: balance;
+}
+.reel-strip { will-change: transform; }
+/* Titles that only flash past get a cheap glow; the full neon is saved for the winner. */
+.reel-strip[data-spinning="true"] .reel-item:not(:last-child) > * { text-shadow: 0 0 10px currentColor; }
+
+/* The centre sign: the title reel. Black panel, solid cyan letters, pink second line. */
+.neon {
+  --h: var(--hn);
+  grid-area: neon;
+  background: #000;
+  border-radius: 0.2rem;
+  box-shadow: inset 0 0 0 1px #ffffff12, 0 0 0 3px #15111f;
+}
+.neon-main {
+  letter-spacing: 0;
+  font: clamp(1.2rem, min(250cqi / var(--len), 135cqi / var(--word), 30cqh), 5.5rem) / 1 var(--neon-font); /* fits width, longest word and two lines of height */
+  color: var(--cyan);
+  text-shadow: 0 0 1px #d6fffe, 0 0 12px #2de2e6aa, 0 0 32px #2de2e655;
+}
+.neon-kicker {
+  font: clamp(0.85rem, 4.6cqi, 1.6rem) / 1 var(--board-font);
+  letter-spacing: 0.35em;
+  margin-right: -0.35em; /* keep the spaced letters optically centred */
+  color: var(--bulb);
+  text-shadow: 0 0 8px #ffcf6eaa;
+}
+.neon-sub {
+  letter-spacing: 0;
+  font: clamp(0.8rem, 4.2cqi, 1.6rem) / 1.15 var(--neon-font);
+  color: var(--pink);
+  text-shadow: 0 0 1px #ffe0f2, 0 0 10px #ff3fa4aa, 0 0 24px #ff3fa455;
+}
+.stage[data-phase="landed"] .neon .reel-item:last-child > *,
+.stage[data-phase="idle"] .neon-main { animation: flicker 1.2s linear both; }
+
+
+/* The letter boards: backlit white, lavender glow, angled in toward the centre sign. */
+.board {
+  --h: var(--hb);
+  background:
+    repeating-linear-gradient(transparent 0 calc(1.7rem - 1px), #00000012 calc(1.7rem - 1px) 1.7rem),
+    linear-gradient(#fdfbff, #ebe8f6);
+  border-radius: 0.25rem;
+  box-shadow: inset 0 0 0 3px #d4cee6, inset 0 0 26px #fff, 0 0 0 3px #1b1630, 0 0 0 5px #8a97ff, 0 0 30px #9aa6ffaa;
+}
+.board-left { grid-area: left; transform: rotateY(-14deg); }
+.board-right { grid-area: right; transform: rotateY(14deg); }
+@media (min-width: 820px) {
+  .board-left { transform: rotateY(-20deg); }
+  .board-right { transform: rotateY(20deg); }
+}
+.board-label { font: clamp(0.85rem, 9cqi, 1.35rem) / 1 var(--board-font); letter-spacing: 0.14em; color: var(--red); }
+.board-text { font: clamp(1.25rem, 15cqi, 2.9rem) / 0.95 var(--board-font); letter-spacing: 0.04em; color: var(--ink); text-transform: uppercase; }
+
+/* ── The lever ──────────────────────────────────────────── */
+.lever {
+  --arm: 3.6rem;
+  --ball: 2.5rem;
+  position: absolute;
+  right: -0.5rem; /* hangs just off the marquee edge */
+  top: 34%;
+  translate: 0 -50%;
+  width: 3.25rem;
+  height: calc(var(--arm) * 2 + var(--ball));
+  touch-action: none;
+  cursor: grab;
+}
+.lever:disabled { cursor: progress; }
+.lever:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; border-radius: 1rem; }
+@media (min-width: 820px) { .lever { --arm: 5.5rem; --ball: 3.25rem; width: 4.5rem; right: 0; top: 46%; } }
+
+.lever::before { /* the chrome mount bolted to the cabinet */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 70%;
+  height: 34%;
+  translate: -50% -50%;
+  border-radius: 0.6rem;
+  background: linear-gradient(90deg, #3a3842, #9d9aa8 45%, #4a4753);
+  box-shadow: inset 0 0 0 1px #ffffff22, 0 8px 18px #000a;
+}
+.lever-arm {
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  width: 0.5rem;
+  height: var(--arm);
+  translate: -50% 0;
+  transform-origin: bottom;
+  scale: 1 calc(1 - 2 * var(--pull));
+  border-radius: 0.25rem;
+  background: linear-gradient(90deg, #6d6a76, #f4f3f8 40%, #8a8794);
+}
+.lever-ball {
+  position: absolute;
+  left: 50%;
+  top: calc(50% - var(--arm) - var(--ball) / 2);
+  width: var(--ball);
+  aspect-ratio: 1;
+  translate: -50% calc(var(--pull) * 2 * var(--arm));
+  scale: calc(1 + 0.3 * sin(var(--pull) * 180deg)); /* swings toward you at the halfway point */
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #fff 0 7%, #ff6b79 14%, var(--red) 48%, #5e0a14);
+  box-shadow: 0 8px 16px #000b, 0 0 22px #d6283955;
+}
+.lever-hub {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1.1rem;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff, #8a8794 60%, #3a3842);
+}
+.lever-arm, .lever-ball { transition: scale 0.6s cubic-bezier(0.3, 1.8, 0.5, 1), translate 0.6s cubic-bezier(0.3, 1.8, 0.5, 1); }
+.lever[data-down="true"] :is(.lever-arm, .lever-ball) { transition-duration: 0.14s; transition-timing-function: ease-in; }
+.lever[data-dragging="true"] :is(.lever-arm, .lever-ball) { transition: none; }
+
+/* ── Box office ─────────────────────────────── */
+.box-office { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; margin-top: -0.75rem; width: 100%; }
+.box-office-sign {
+  padding: 0.3rem 1.3rem;
+  font: 1.15rem/1 var(--board-font);
+  letter-spacing: 0.3em;
+  color: var(--paper);
+  background: var(--teal);
+  border-radius: 0.2rem;
+  box-shadow: inset 0 0 0 2px #2c857c, 0 0 22px #1d5f5a99;
+}
+.box-office-select {
+  min-height: 48px;
+  width: min(20rem, 100%);
+  justify-content: center;
+  gap: 0.5rem;
+  font: 1.3rem/1 var(--board-font);
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  background: var(--paper);
+  border: 0;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 0 3px var(--night), 0 0 0 5px var(--teal);
+}
+.box-office-select svg { color: var(--red); opacity: 1; }
+.box-office-menu { font: 1.2rem/1.1 var(--board-font); letter-spacing: 0.05em; }
+
+/* ── Motion ─────────────────────────────────────────────── */
+@keyframes chase { to { background-position-x: calc(var(--b) * 3); } }
+@keyframes flash { 50% { opacity: 0.2; } }
+@keyframes flicker {
+  0% { opacity: 0.1; } 6% { opacity: 1; } 9% { opacity: 0.25; } 15% { opacity: 1; }
+  19% { opacity: 0.45; } 26%, 100% { opacity: 1; }
+}
+@keyframes power-on { 0% { opacity: 0; } 10% { opacity: 0.8; } 14% { opacity: 0.1; } 30%, 100% { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .bulbs, .bulbs::after, .logo, .neon * { animation: none !important; }
+  .lever-arm, .lever-ball { transition: none !important; }
+  .reel-item { animation: fade 0.4s both; }
+  @keyframes fade { from { opacity: 0; } }
+}

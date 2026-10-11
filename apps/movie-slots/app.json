@@ -1,0 +1,9 @@
+{
+  "slug": "movie-slots",
+  "name": "Sharelies Movie Pokie",
+  "description": "Pull the lever, spin the theatre marquee, land tonight's movie.",
+  "emoji": "🎰",
+  "status": "beta",
+  "version": "0.1.0",
+  "owner": "Lachie"
+}

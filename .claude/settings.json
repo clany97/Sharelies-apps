@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run check)",
+      "Bash(npm run build)",
+      "Bash(npm run new-app *)",
+      "Bash(npm run dev *)",
+      "Bash(npm install)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(gh issue view *)"
+    ]
+  }
+}

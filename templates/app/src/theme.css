@@ -1,0 +1,12 @@
+/*
+ * This app's design system. Tailwind + the shared shadcn base come first,
+ * then this app's own tokens. Restyle the app here, not in @sharelies/ui.
+ */
+@import "tailwindcss";
+@import "@sharelies/ui/base.css";
+@source "./";
+
+:root {
+  --primary: oklch(0.65 0.2 35);
+  --primary-foreground: oklch(0.99 0 0);
+}
