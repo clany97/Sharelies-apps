@@ -44,7 +44,7 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           # A labelled issue gets the full factory brief; an @claude comment is answered as written.
-          prompt: ${{ github.event_name == 'issues' && format('Factory job for issue #{0}. Read factory/prompts/factory-job.md and follow it exactly.', github.event.issue.number) || '' }}
+          prompt: ${{ github.event_name == 'issues' && format('Factory job for issue number {0}. Read factory/prompts/factory-job.md and follow it exactly.', github.event.issue.number) || '' }}
           claude_args: >-
             --max-turns 60
             --allowedTools "Edit,Write,Read,Glob,Grep,Bash(npm run *),Bash(npm install *),Bash(npm ci),Bash(git *),Bash(gh pr *),Bash(gh issue *)"
